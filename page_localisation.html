@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Carte avec géolocalisation</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    #map {
+      height: 100%;
+    }
+    #offlineMessage {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      font-weight: bold;
+      z-index: 9999;
+    }
+    #loadingBar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background-color: #ccc;
+      z-index: 9998;
+    }
+    #loadingProgress {
+      height: 100%;
+      background-color: #4CAF50;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div id="offlineMessage" style="display: none;">Pas de connexion Internet <img src="images/ios12-no-internet-connection-icon_2x.png" alt="pas de connection internet"></div>
+  <div id="loadingBar" style="display: none;">
+    <div id="loadingProgress"></div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script>
+    // Attendre que le document soit prêt avant d'exécuter le code
+    document.addEventListener("DOMContentLoaded", function () {
+      if (navigator.geolocation) {
+        // Afficher la barre de chargement tant que la géolocalisation est en cours
+        showLoadingBar();
+
+        navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+      } else {
+        console.log("La géolocalisation n'est pas prise en charge par ce navigateur.");
+        showOfflineMessage();
+      }
+    });
+
+    function successCallback(position) {
+      hideLoadingBar(); // Cacher la barre de chargement lorsque la géolocalisation a réussi
+      hideOfflineMessage(); // Cacher le message d'avertissement s'il y a une connexion Internet
+
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      console.log("Latitude : " + latitude + ", Longitude : " + longitude);
+
+      // Le reste du code pour afficher la carte
+      // ...
+    }
+
+    function errorCallback(error) {
+      console.log("Erreur de géolocalisation : " + error.message);
+      hideLoadingBar(); // Cacher la barre de chargement en cas d'erreur de géolocalisation
+      showOfflineMessage();
+    }
+
+    function showOfflineMessage() {
+      const offlineMessage = document.getElementById("offlineMessage");
+      offlineMessage.style.display = "flex";
+    }
+
+    function hideOfflineMessage() {
+      const offlineMessage = document.getElementById("offlineMessage");
+      offlineMessage.style.display = "none";
+    }
+
+    function showLoadingBar() {
+      const loadingBar = document.getElementById("loadingBar");
+      loadingBar.style.display = "block";
+    }
+
+    function hideLoadingBar() {
+      const loadingBar = document.getElementById("loadingBar");
+      loadingBar.style.display = "none";
+    }
+  </script>
+</body>
+</html>

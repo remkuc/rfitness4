@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bouton avec Titre</title>
+<link rel="stylesheet" href="css_fit_bpm.css">
+</head>
+<body>
+  <h1>Calculer votre rythme cardiaque</h1>
+  <button id="startButton">Démarrer</button>
+  <div id="timer" style="display: none;"></div> <!-- Div pour afficher le chronomètre -->
+  <button id="actionButton">Cliques à chaque battements</button> <!-- Bouton pour l'action -->
+
+  <script>
+    var startButton = document.getElementById("startButton");
+    var actionButton = document.getElementById("actionButton");
+    var timerDisplay = document.getElementById("timer");
+    var clickCount = 0; // Initialiser le compteur de clics
+    var clickTracking = false; // Suivi des clics activé/désactivé
+
+    startButton.addEventListener("click", function() {
+      startButton.style.display = "none"; // Cacher le bouton de démarrage
+      timerDisplay.style.display = "block"; // Afficher le chronomètre
+
+      var countdown = 3; // Compte à rebours de 3 secondes
+
+      var countdownInterval = setInterval(function() {
+        timerDisplay.innerText = countdown;
+        countdown--;
+
+        if (countdown < 0) {
+          clearInterval(countdownInterval);
+          timerDisplay.innerText = "Chrono démarré !";
+          actionButton.style.display = "block"; // Afficher le bouton d'action
+          clickTracking = true; // Activer le suivi des clics
+          setTimeout(function() {
+            var multipliedClicks = clickCount * 4; // Multiplier les clics par 4
+            alert("Vos battements de coeurs par minutes : " + multipliedClicks);
+            clickTracking = false; // Désactiver le suivi des clics
+
+            // Réinitialiser les valeurs et masquer les éléments
+            timerDisplay.style.display = "none";
+            actionButton.style.display = "none";
+            startButton.style.display = "block";
+            clickCount = 0;
+          }, 15000); // Afficher le nombre de clics après 15 secondes
+        }
+      }, 1000); // Mettre à jour toutes les 1000ms (1 seconde)
+    });
+
+    actionButton.addEventListener("click", function() {
+      if (clickTracking) {
+        clickCount++; // Incrémenter le compteur de clics si le suivi est activé
+      }
+    });
+  </script>
+</body>
+</html>

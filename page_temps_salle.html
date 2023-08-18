@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Temps d'activité</title>
+  <style>
+        body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: rgb(17, 16, 16);
+      color: white;
+    }
+    .buttons-container {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin: 10px;
+    }
+    #showCumulativeButton {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+    #backButton {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+    p {
+      font-size: 24px;
+      margin-top: 20px;
+    }
+  </style>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.0/fullcalendar.min.css" rel="stylesheet">
+</head>
+<body>
+  <div id="calendar"></div>
+  <button id="backButton" onclick="goBack()">Retour</button>
+  <h1>Temps d'activité</h1>
+  <p id="timer">00:00:00</p>
+  <div class="buttons-container">
+    <button id="toggleButton">Démarrer/Arrêter le chrono</button>
+    <button id="resetButton">Réinitialiser</button>
+    <button id="saveButton">Sauvegarder</button>
+  </div>
+  <button id="showCumulativeButton">Voir le temps cumulé</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script>
+    // Fonction pour revenir en arrière et ajouter le temps cumulé au calendrier
+    function goBack() {
+      addCumulativeTimeToCalendar(); // Ajout du temps cumulé au calendrier avant de revenir
+      cumulativeTime = 0; // Réinitialisation du temps cumulé
+      window.history.back();
+    }
+
+    // Variables pour le chronomètre
+    let startTime = 0;
+    let intervalId;
+    let isRunning = false;
+    let cumulativeTime = 0;
+
+    // Récupération des éléments du DOM
+    const toggleButton = document.getElementById("toggleButton");
+    const resetButton = document.getElementById("resetButton");
+    const saveButton = document.getElementById("saveButton");
+    const showCumulativeButton = document.getElementById("showCumulativeButton");
+    const timerDisplay = document.getElementById("timer");
+
+    // Fonction pour démarrer/arrêter le chronomètre
+    function toggleTimer() {
+      if (!isRunning) {
+        startTimer();
+        toggleButton.textContent = "Arrêter le chrono";
+      } else {
+        stopTimer();
+        toggleButton.textContent = "Démarrer le chrono";
+      }
+      isRunning = !isRunning;
+    }
+
+    // Fonction pour démarrer le chronomètre
+    function startTimer() {
+      if (startTime === 0) {
+        startTime = Date.now();
+        intervalId = setInterval(updateTimer, 1000);
+      }
+    }
+
+    // Fonction pour arrêter le chronomètre
+    function stopTimer() {
+      clearInterval(intervalId);
+      if (isRunning) { // Ajout : Ajouter le temps écoulé seulement si le chrono est en cours
+        cumulativeTime += Date.now() - startTime;
+      }
+      startTime = 0;
+    }
+
+    // Fonction pour réinitialiser le chronomètre
+    function resetTimer() {
+      stopTimer();
+      timerDisplay.textContent = "00:00:00";
+    }
+
+    // Fonction pour sauvegarder le temps écoulé
+    function saveTime() {
+      if (isRunning) { // Ajout : Sauvegarder seulement si le chrono est en cours
+        cumulativeTime += Date.now() - startTime;
+      }
+    }
+
+    // Fonction pour afficher le temps cumulé
+    function showCumulativeTime() {
+      const hours = Math.floor(cumulativeTime / 3600000);
+      const minutes = Math.floor((cumulativeTime % 3600000) / 60000);
+      const seconds = Math.floor((cumulativeTime % 60000) / 1000);
+
+      const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      alert(`Temps cumulé enregistré : ${formattedTime}`);
+    }
+
+    // Fonction pour mettre à jour le chronomètre affiché
+    function updateTimer() {
+      const currentTime = Date.now();
+      const elapsedTime = currentTime - startTime;
+      
+      const hours = Math.floor(elapsedTime / 3600000);
+      const minutes = Math.floor((elapsedTime % 3600000) / 60000);
+      const seconds = Math.floor((elapsedTime % 60000) / 1000);
+
+      const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      timerDisplay.textContent = formattedTime;
+    }
+
+    // Fonction pour formater le temps cumulé
+    function formatCumulativeTime() {
+      const hours = Math.floor(cumulativeTime / 3600000);
+      const minutes = Math.floor((cumulativeTime % 3600000) / 60000);
+      const seconds = Math.floor((cumulativeTime % 60000) / 1000);
+      return `${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    // Fonction pour ajouter le temps cumulé au calendrier et réinitialiser le temps cumulé
+    function addCumulativeTimeToCalendar() {
+      if (cumulativeTime > 0) {
+        const eventTitle = "Temps cumulé : " + formatCumulativeTime();
+        // Ici, vous devrez ajouter le code pour ajouter l'événement au calendrier, en utilisant la bibliothèque FullCalendar
+        // Assurez-vous d'avoir initialisé le calendrier correctement comme vous l'avez fait dans votre premier exemple
+        // Exemple : calendar.fullCalendar('renderEvent', { ... }, true);
+        cumulativeTime = 0; // Réinitialisation du temps cumulé
+      }
+    }
+
+    // Utilisation de setInterval pour appeler la fonction à minuit
+    setInterval(function() {
+      const currentTime = moment();
+      if (currentTime.hours() === 0 && currentTime.minutes() === 0) {
+        addCumulativeTimeToCalendar();
+      }
+    }, 60000); // Vérification toutes les minutes
+
+    // Ajout des écouteurs d'événements
+    toggleButton.addEventListener("click", toggleTimer);
+    resetButton.addEventListener("click", resetTimer);
+    saveButton.addEventListener("click", saveTime);
+    showCumulativeButton.addEventListener("click", showCumulativeTime);
+  </script>
+</body>
+</html>

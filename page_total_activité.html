@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les Activités</title>
+    <link rel="stylesheet" href="css_fit_total_activité.css">
+</head>
+<body>
+    <h1>Les Activités</h1>
+    <p>Sur cette page, vous pouvez configurer vos activités et les visualiser.</p>
+    
+    <div>
+        <button id="configurerMap">Configurer Map</button>
+        <button id="voirActivite">Voir Activité</button>
+        <button id="temps_salle">Temps passé à la salle</button>
+    </div>
+    
+    <script>
+          // Vous pouvez ajouter des scripts JavaScript ici pour gérer les actions des boutons si nécessaire.
+          document.getElementById('configurerMap').addEventListener('click', () => {
+            window.location.href = 'page_localisation.html';
+        });
+
+        document.getElementById('voirActivite').addEventListener('click', () => {
+            window.location.href = 'page_activité.html';
+        });
+
+        document.getElementById('temps_salle').addEventListener('click', () => {
+            window.open('page_temps_salle.html', "_blank")  ;
+        });
+
+    </script>
+</body>
+</html>
+
+      

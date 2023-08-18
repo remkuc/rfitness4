@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acceuil</title>
+  <link rel="stylesheet" href="css_fit_acceuil.css">
+</head>
+<body>
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span>
+  </div>
+
+  <div class="main-menu" id="menu">
+    <h1>Menu Principal</h1>
+    <ul>
+      <li><a href="page_fitness.html">Votre programme</a></li>
+      <li><a href="#">Votre bodyage</a></li>
+      <li><a href="page_nutriments.html">Nutritions</a></li> 
+      <li><a href="page_total_activité.html">Votre activité</a></li>
+      <li><a href="page_bpm.html">Vos battements de coeurs</a></li>
+    </ul>
+  </div>
+
+  <div class="content">
+    <h1>Application Fitness</h1>
+    <p>Vous pouvez suivre ici toutes vos activités au fitness ainsi que faire vos programmes</p>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      var menu = document.getElementById("menu");
+      menu.classList.toggle("active");
+    }
+  </script>
+</body>
+</html>

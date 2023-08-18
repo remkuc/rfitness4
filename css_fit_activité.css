@@ -1,0 +1,14 @@
+body {
+    background-color: #333; /* Couleur de fond de la page */
+    margin: 0; /* Supprime les marges par défaut du body */
+    padding: 0; /* Supprime les marges internes par défaut du body */
+    font-family: Arial, sans-serif; /* Police par défaut */
+    color: white;
+    
+  }
+  #calendar {
+    margin: 20px; /* Ajoute une marge autour du calendrier */
+    background-color: rgb(17, 16, 16); /* Couleur de fond du calendrier */
+    border-radius: 10px; /* Ajoute des coins arrondis au calendrier */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ajoute une ombre légère */
+  }

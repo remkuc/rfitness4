@@ -1,0 +1,32 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: rgb(17, 16, 16);
+  }
+  
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: white;
+    font-size: xx-large;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+  
+  #timer {
+    font-size: larger;
+    color: white;
+  }
+  
+  #actionButton {
+    margin-top: 20px;
+    display: none;
+  }
+  
